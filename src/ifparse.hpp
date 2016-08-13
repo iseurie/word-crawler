@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <fstream>
-#include <iostream>
-#include <limits>
 
 #include "searchpool.hpp"
 
@@ -31,11 +29,11 @@ namespace read {
         for ( int i = 0; i < rows; i++ ) {
             input >> map[i];
         }
-        while ( input ) {
+        while(input) {
             string term;
             input >> term;
             if ( term.length() > 0 ) {
-                terms->push_back( term );
+                terms->push_back(term);
             }
         }
 

@@ -27,21 +27,15 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
-        cout << "Enter column count: ";
-        cin >> cols;
-        if(!cin) {
-            cerr << "Please enter a numerical value." << endl;
-            return 1;
-        }
-
-        cout << "Enter character pool: ";
+        cout << "Enter table contents: ";
         cin >> blob;
+        pool = SearchPool(rows, blob.c_str());
 
-        cout << "Enter terms to find, delimited with semicolons: ";
-        string line;
-        while(getline(cin, line, ';')) {
-            terms.push_back(line);
-        }
+        cout << "Enter terms to find, delimited with ';': ";
+        string termBufStr;
+        cin >> termBufStr;
+        stringstream termBuf(termBufStr);
+        for(string term; getline(termBuf, term, ';'); terms.push_back(term));
     } else if(argc == 2) {
         try {
             pool = read::read(string(argv[1]), &terms);
@@ -56,14 +50,18 @@ int main(int argc, char* argv[]) {
 
     for(int i = 0; i < terms.size(); ++i) {
         vector<array<point_s, 2>> hits = pool.find(terms[i]);
-        if(hits.size() != 0) {
-            cout << "Hit '" << terms[i] << ":'" << endl;
-            for(int h = 0; h < hits.size(); ++h) {
-                cout << '\t' << "At column " << hits[h][0].x 
-                        << ", row " << hits[h][0].y
-                        << " by vector " << hits[h][1].x 
-                        << ", " << hits[h][1].y;
+        if(hits.size() > 0) {
+            cout << "Hit '" << terms[i] << "': " << endl;
+            for(int i = 0; i < hits.size(); ++i) {
+                cout << '\t' << "at column " << hits[i][0].x 
+                        << ", row " << hits[i][0].y
+                        << " by vector (" << hits[i][1].x 
+                        << ", " << hits[i][1].y << ')';
+                if(i <= hits.size()) cout << ';';
+                cout << endl;
             }
+        } else {
+            cout << "Term '" << terms[i] << "' not found" << endl;
         }
     }
 }

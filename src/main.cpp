@@ -53,8 +53,8 @@ int main(int argc, char* argv[]) {
         if(hits.size() > 0) {
             cout << "Hit '" << terms[i] << "': " << endl;
             for(int i = 0; i < hits.size(); ++i) {
-                cout << '\t' << "at column " << hits[i][0].x 
-                        << ", row " << hits[i][0].y
+                cout << '\t' << "at column " << hits[i][0].x + 1
+                        << ", row " << hits[i][0].y + 1
                         << " by vector (" << hits[i][1].x 
                         << ", " << hits[i][1].y << ')';
                 if(i <= hits.size()) cout << ';';
